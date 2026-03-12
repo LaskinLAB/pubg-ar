@@ -1,39 +1,53 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>PUBG AR Trophy</title>
+    <title>KALINKA PUBG - AR</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     
     <style>
-        body { margin: 0; background-color: #0f0f0f; font-family: sans-serif; color: white; }
-        model-viewer { width: 100vw; height: 100vh; --poster-color: transparent; }
+        body { 
+            margin: 0; 
+            background-color: #0f0f0f; 
+            font-family: sans-serif;
+            overflow: hidden; 
+        }
+
+        model-viewer {
+            width: 100vw;
+            height: 100vh;
+        }
         
-        /* Стиль кнопки "НА СТРИМ" */
-        .ar-link-button {
-            display: none; 
+        /* === КНОПКА ВНУТРИ AR === */
+        .ar-ui-container {
             position: absolute;
-            top: 30px;
+            bottom: 40px; /* Кнопка будет внизу экрана, чтобы удобно жать пальцем */
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(45deg, #ff4500, #ff8c00);
+            z-index: 1000;
+            width: 100%;
+            text-align: center;
+            /* Пропускаем клики мимо кнопки, чтобы можно было крутить модель */
+            pointer-events: none; 
+        }
+
+        .ar-link-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff0000, #b30000); /* Цвета YouTube */
             color: white;
-            padding: 14px 28px;
+            padding: 16px 32px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
+            font-size: 16px;
             text-transform: uppercase;
             border: 2px solid #ffffff;
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
-            z-index: 1000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            pointer-events: auto; /* Включаем клик только для самой кнопки */
         }
 
-        /* Показываем кнопку только в режиме AR */
-        model-viewer[ar-status="presenting"] .ar-link-button {
-            display: block;
-        }
-
+        /* === КНОПКА ДО ЗАПУСКА AR === */
         #ar-button {
             position: absolute;
             bottom: 50px;
@@ -47,6 +61,22 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        /* Ссылка на Ютуб до входа в AR (на всякий случай) */
+        .web-link {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            background: rgba(255, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -54,6 +84,7 @@
 
     <model-viewer 
         src="model.glb" 
+        scale="0.01 0.01 0.01"
         ar 
         ar-modes="webxr scene-viewer quick-look" 
         camera-controls 
@@ -62,12 +93,18 @@
         shadow-intensity="1.5"
     >
         
-        <a class="ar-link-button" href="https://www.youtube.com/@KALINKA_PUBG" target="_blank">
-            🔥 ЗАЙТИ НА СТРИМ 🔥
+        <a class="web-link" href="https://www.youtube.com/@KALINKA_PUBG" target="_blank">
+            ▶️ КАНАЛ KALINKA PUBG
         </a>
 
+        <div slot="ar-ui" class="ar-ui-container">
+            <a class="ar-link-button" href="https://www.youtube.com/@KALINKA_PUBG" target="_blank">
+                🔴 ПЕРЕЙТИ НА КАНАЛ 🔴
+            </a>
+        </div>
+
         <button slot="ar-button" id="ar-button">
-            ПОСТАВИТЬ НА СТОЛ
+           ЖМИ ТУТ МАГИЯ
         </button>
 
     </model-viewer>
