@@ -31,7 +31,7 @@
             pointer-events: none; 
         }
 
-        /* === СТЕКЛЯННАЯ КНОПКА (YouTube) В AR === */
+        /* === СТЕКЛЯННАЯ КНОПКА В AR === */
         .ar-link-button {
             display: inline-block;
             padding: 16px 36px;
@@ -43,7 +43,6 @@
             color: #ffffff;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
             
-            /* Эффект Apple Glass */
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px); 
@@ -68,7 +67,6 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             cursor: pointer;
             
-            /* Эффект Apple Glass */
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -76,7 +74,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
 
-        /* === СТЕКЛЯННАЯ КНОПКА СВЕРХУ (До запуска AR) === */
+        /* === СТЕКЛЯННАЯ КНОПКА СВЕРХУ === */
         .web-link {
             position: absolute;
             top: 80px; 
@@ -91,7 +89,6 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             white-space: nowrap;
             
-            /* Эффект Apple Glass */
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -103,9 +100,70 @@
             background: rgba(255, 255, 255, 0.25);
             transform: translateX(-50%) scale(0.97);
         }
+
+        /* === ПРЕДУПРЕЖДЕНИЕ ДЛЯ TELEGRAM/INSTAGRAM === */
+        #webview-warning {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 9999;
+            color: white;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .warning-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+        }
+
+        .warning-box h2 {
+            margin-top: 0;
+            color: #ff4500;
+        }
+
+        .warning-box p {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Иконка указывающая вверх на три точки */
+        .arrow-up {
+            font-size: 40px;
+            animation: bounce 1s infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
     </style>
 </head>
 <body>
+
+    <div id="webview-warning">
+        <div class="arrow-up">☝️</div>
+        <div class="warning-box">
+            <h2>AR заблокирован мессенджером</h2>
+            <p>Telegram не дает доступ к камере для запуска AR.</p>
+            <p><strong>Нажми на три точки (или значок компаса) в правом верхнем углу и выбери<br>«Открыть в браузере» / «Открыть в Safari»</strong></p>
+        </div>
+    </div>
 
     <model-viewer 
         src="model.glb" 
@@ -131,10 +189,27 @@
         </div>
 
         <button slot="ar-button" id="ar-button">
-            ЖМИ ТУТ МАГИЯ
+            ПОСТАВИТЬ НА СТОЛ
         </button>
 
     </model-viewer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            // Ищем признаки Телеграма, Инстаграма, Фейсбука, ВК
+            var isWebView = (ua.indexOf("Instagram") > -1) || 
+                            (ua.indexOf("FBAN") > -1) || 
+                            (ua.indexOf("FBAV") > -1) || 
+                            (ua.indexOf("Telegram") > -1) || 
+                            (ua.indexOf("VKWebView") > -1);
+
+            if (isWebView) {
+                // Если это мессенджер — показываем заглушку
+                document.getElementById('webview-warning').style.display = 'flex';
+            }
+        });
+    </script>
 
 </body>
 </html>
