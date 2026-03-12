@@ -35,18 +35,18 @@
         .ar-link-button {
             display: inline-block;
             padding: 16px 36px;
-            border-radius: 50px; /* Круглая как капсула */
+            border-radius: 50px; 
             text-decoration: none;
             font-weight: 600;
             font-size: 16px;
             letter-spacing: 0.5px;
             color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Чтобы текст читался на светлом фоне */
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
             
             /* Эффект Apple Glass */
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); /* Для сафари на айфонах */
+            -webkit-backdrop-filter: blur(12px); 
             border: 1px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             
@@ -61,7 +61,7 @@
             left: 50%;
             transform: translateX(-50%);
             padding: 16px 32px;
-            border-radius: 16px; /* Чуть более квадратная, в стиле виджетов iOS */
+            border-radius: 16px; 
             font-size: 18px;
             font-weight: 600;
             color: #ffffff;
@@ -99,7 +99,6 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
 
-        /* Легкая анимация при нажатии на стеклянные кнопки */
         .ar-link-button:active, #ar-button:active, .web-link:active {
             background: rgba(255, 255, 255, 0.25);
             transform: translateX(-50%) scale(0.97);
@@ -110,6 +109,7 @@
 
     <model-viewer 
         src="model.glb" 
+        ios-src="model.usdz"
         scale="0.05 0.05 0.05"
         camera-orbit="0deg 80deg auto"
         ar 
@@ -131,7 +131,7 @@
         </div>
 
         <button slot="ar-button" id="ar-button">
-            ПОСТАВИТЬ НА СТОЛ
+            ЖМИ ТУТ МАГИЯ
         </button>
 
     </model-viewer>
