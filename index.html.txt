@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>PUBG AR Trophy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    
+    <style>
+        body { margin: 0; background-color: #0f0f0f; font-family: sans-serif; color: white; }
+        model-viewer { width: 100vw; height: 100vh; --poster-color: transparent; }
+        
+        /* Стиль кнопки "НА СТРИМ" */
+        .ar-link-button {
+            display: none; 
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff4500, #ff8c00);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+            z-index: 1000;
+        }
+
+        /* Показываем кнопку только в режиме AR */
+        model-viewer[ar-status="presenting"] .ar-link-button {
+            display: block;
+        }
+
+        #ar-button {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <model-viewer 
+        src="model.glb" 
+        ar 
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls 
+        auto-rotate 
+        autoplay
+        shadow-intensity="1.5"
+    >
+        
+        <a class="ar-link-button" href="https://www.youtube.com/@KALINKA_PUBG" target="_blank">
+            🔥 ЗАЙТИ НА СТРИМ 🔥
+        </a>
+
+        <button slot="ar-button" id="ar-button">
+            ПОСТАВИТЬ НА СТОЛ
+        </button>
+
+    </model-viewer>
+
+</body>
+</html>
