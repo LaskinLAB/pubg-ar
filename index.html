@@ -19,7 +19,6 @@
             height: 100vh;
         }
         
-        /* === КОНТЕЙНЕР ДЛЯ AR === */
         .ar-ui-container {
             position: absolute;
             bottom: 120px; 
@@ -31,7 +30,6 @@
             pointer-events: none; 
         }
 
-        /* === СТЕКЛЯННАЯ КНОПКА В AR === */
         .ar-link-button {
             display: inline-block;
             padding: 16px 36px;
@@ -53,7 +51,6 @@
             transition: background 0.3s ease;
         }
 
-        /* === СТЕКЛЯННАЯ КНОПКА "ПОСТАВИТЬ НА СТОЛ" === */
         #ar-button {
             position: absolute;
             bottom: 100px;
@@ -74,7 +71,6 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
 
-        /* === СТЕКЛЯННАЯ КНОПКА СВЕРХУ === */
         .web-link {
             position: absolute;
             top: 80px; 
@@ -101,17 +97,15 @@
             transform: translateX(-50%) scale(0.97);
         }
 
-        /* === ПРЕДУПРЕЖДЕНИЕ ДЛЯ TELEGRAM/INSTAGRAM === */
+        /* === ПРЕДУПРЕЖДЕНИЕ ДЛЯ TELEGRAM === */
         #webview-warning {
-            display: none; /* Скрыто по умолчанию */
+            display: none; /* Скрыто по умолчанию, пока скрипт не найдет Телегу */
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(15, 15, 15, 0.98);
             z-index: 9999;
             color: white;
             flex-direction: column;
@@ -130,27 +124,18 @@
             max-width: 400px;
         }
 
-        .warning-box h2 {
-            margin-top: 0;
-            color: #ff4500;
-        }
+        .warning-box h2 { margin-top: 0; color: #ff4500; }
+        .warning-box p { font-size: 18px; line-height: 1.5; margin-bottom: 20px; }
 
-        .warning-box p {
-            font-size: 18px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        /* Иконка указывающая вверх на три точки */
         .arrow-up {
-            font-size: 40px;
+            font-size: 50px;
             animation: bounce 1s infinite;
             margin-bottom: 20px;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-20px); }
         }
     </style>
 </head>
@@ -160,8 +145,8 @@
         <div class="arrow-up">☝️</div>
         <div class="warning-box">
             <h2>AR заблокирован мессенджером</h2>
-            <p>Telegram не дает доступ к камере для запуска AR.</p>
-            <p><strong>Нажми на три точки (или значок компаса) в правом верхнем углу и выбери<br>«Открыть в браузере» / «Открыть в Safari»</strong></p>
+            <p>Telegram не дает доступ к камере.</p>
+            <p><strong>Нажми на три точки (или иконку Safari) в правом верхнем углу и выбери<br>«Открыть в браузере»</strong></p>
         </div>
     </div>
 
@@ -177,35 +162,32 @@
         autoplay
         shadow-intensity="1.5"
     >
-        
         <a class="web-link" href="https://www.youtube.com/@KALINKA_PUBG" target="_blank">
             ▶️ КАНАЛ KALINKA PUBG
         </a>
-
         <div slot="ar-ui" class="ar-ui-container">
             <a class="ar-link-button" href="https://www.youtube.com/@KALINKA_PUBG" target="_blank">
                 🔴 ПЕРЕЙТИ НА КАНАЛ
             </a>
         </div>
-
         <button slot="ar-button" id="ar-button">
             ПОСТАВИТЬ НА СТОЛ
         </button>
-
     </model-viewer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var ua = navigator.userAgent || navigator.vendor || window.opera;
-            // Ищем признаки Телеграма, Инстаграма, Фейсбука, ВК
+            
             var isWebView = (ua.indexOf("Instagram") > -1) || 
                             (ua.indexOf("FBAN") > -1) || 
                             (ua.indexOf("FBAV") > -1) || 
                             (ua.indexOf("Telegram") > -1) || 
-                            (ua.indexOf("VKWebView") > -1);
+                            (ua.indexOf("VKWebView") > -1) ||
+                            // Супер-хак для iOS: если это iPhone/iPad, но браузер не отдает подпись оригинального Safari
+                            (/iPhone|iPod|iPad/.test(ua) && !/Safari/.test(ua) && !/CriOS/.test(ua) && !/FxiOS/.test(ua));
 
             if (isWebView) {
-                // Если это мессенджер — показываем заглушку
                 document.getElementById('webview-warning').style.display = 'flex';
             }
         });
