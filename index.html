@@ -7,12 +7,24 @@
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     
     <style>
-        body { margin: 0; background-color: #0f0f0f; font-family: sans-serif; color: white; }
-        model-viewer { width: 100vw; height: 100vh; --poster-color: transparent; }
-        
-        /* Стиль кнопки "НА СТРИМ" */
+        body { 
+            margin: 0; 
+            background-color: #0f0f0f; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            overflow: hidden; /* Убирает случайные скроллы */
+        }
+
+        /* Контейнер для модели */
+        model-viewer {
+            width: 100vw;
+            height: 100vh;
+            --poster-color: transparent;
+        }
+
+        /* Кнопка "НА СТРИМ" - появляется только внутри AR режима */
         .ar-link-button {
-            display: none; 
+            display: none; /* Скрыта по умолчанию */
             position: absolute;
             top: 30px;
             left: 50%;
@@ -24,16 +36,19 @@
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 1px;
             border: 2px solid #ffffff;
             box-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
             z-index: 1000;
+            white-space: nowrap;
         }
 
-        /* Показываем кнопку только в режиме AR */
+        /* Показываем кнопку только когда камера телефона активна (AR режим) */
         model-viewer[ar-status="presenting"] .ar-link-button {
             display: block;
         }
 
+        /* Кнопка запуска AR (внизу экрана) */
         #ar-button {
             position: absolute;
             bottom: 50px;
@@ -47,6 +62,12 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
+        }
+
+        #ar-button:active {
+            transform: translateX(-50%) scale(0.95);
         }
     </style>
 </head>
@@ -54,12 +75,16 @@
 
     <model-viewer 
         src="model.glb" 
+        scale="0.01 0.01 0.01"
         ar 
         ar-modes="webxr scene-viewer quick-look" 
         camera-controls 
         auto-rotate 
         autoplay
         shadow-intensity="1.5"
+        shadow-softness="1"
+        environment-image="neutral"
+        alt="Трофей Стримера PUBG Mobile"
     >
         
         <a class="ar-link-button" href="https://www.youtube.com/@KALINKA_PUBG" target="_blank">
